@@ -4,7 +4,7 @@
 
 NoteQuik is a modern, mobile-responsive React web application that allows users to paste any YouTube video link, choose their preferred language (English or Bengali), and receive a beautifully summarized, easy-to-understand learning note that can be downloaded as a PDF.
 
-![NoteQuik Preview](https://via.placeholder.com/800x400/000000/7AFFA1?text=NoteQuik+Preview)
+![NoteQuik Preview](./src/assets/notequik_ui.png)
 
 ## ✨ Features
 
