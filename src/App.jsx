@@ -199,7 +199,7 @@ function App() {
                           ></path>
                         </svg>
                         <a
-                          href="https://mirtauid.com"
+                          href="https://mirtauhid.com"
                           target="_blank"
                           rel="noopener noreferrer"
                           className="text-white/80 hover:text-secondary transition-colors text-sm"

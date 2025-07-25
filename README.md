@@ -13,7 +13,7 @@ Transform YouTube videos into smart learning notes instantly with AI-powered sum
 
 ## Tech Stack
 
-- **Frontend**: React 18 + Vite + Tailwind CSS
+-- 🌐 Portfolio: [mirtauhid.com](https://mirtauhid.com)**Frontend**: React 18 + Vite + Tailwind CSS
 - **UI**: shadcn/ui components
 - **Backend**: Node.js + Express
 - **Database**: Firebase Firestore
@@ -99,7 +99,7 @@ pnpm run dev
 ## Author
 
 **Mir Tauhidul Islam** 🇧🇩
-- Portfolio: [mirtauid.com](https://mirtauid.com)
+- Portfolio: [mirtauhid.com](https://mirtauhid.com)
 - Email: mislam.tauhidul@gmail.com
 - GitHub: [@mtauhidul](https://github.com/mtauhidul)
 
