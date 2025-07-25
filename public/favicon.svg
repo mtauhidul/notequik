@@ -10,9 +10,6 @@
   <!-- Rounded square background -->
   <rect x="2" y="2" width="28" height="28" rx="8" fill="url(#bgGradient)"/>
   
-  <!-- Centered, bold "N" -->
-  <path d="M7 7v18h3.5v-10l7 10H21V7h-3.5v10L10.5 7H7z" fill="#000" stroke="none"/>
-  
-  <!-- Lightning bolt accent (repositioned) -->
-  <path d="M23 10l-2 4h1.5l-1.5 4 2-4h-1.5l1.5-4z" fill="#000" stroke="none"/>
+  <!-- Perfectly centered "N" -->
+  <path d="M9 8v16h3v-10l8 10h3V8h-3v10L12 8H9z" fill="#000" stroke="none"/>
 </svg>
