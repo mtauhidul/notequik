@@ -32,6 +32,17 @@ function App() {
     }
   }, []);
 
+  // Update document title based on state
+  useEffect(() => {
+    if (isGenerating) {
+      document.title = "Generating Note... | NoteQuik";
+    } else if (generatedNote) {
+      document.title = "Note Ready! | NoteQuik";
+    } else {
+      document.title = "NoteQuik - Transform YouTube Videos into Smart Learning Notes";
+    }
+  }, [isGenerating, generatedNote]);
+
   // Handle email submission
   const handleEmailSubmit = async (email) => {
     try {
