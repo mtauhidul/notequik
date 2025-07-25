@@ -97,6 +97,25 @@ export const updateGlobalStats = async ({
   }
 };
 
+// Initialize global stats document if it doesn't exist
+export const initializeGlobalStats = async () => {
+  try {
+    const statsRef = doc(db, "stats", "global");
+    const statsDoc = await getDoc(statsRef);
+
+    if (!statsDoc.exists()) {
+      const initialData = {
+        totalUsers: 0,
+        totalNotes: 0,
+        lastUpdated: serverTimestamp(),
+      };
+      await setDoc(statsRef, initialData);
+    }
+  } catch (error) {
+    console.error("Error initializing global stats:", error);
+  }
+};
+
 // Get global statistics
 export const getGlobalStats = async () => {
   try {

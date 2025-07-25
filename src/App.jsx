@@ -8,6 +8,7 @@ import StatsFooter from "./components/StatsFooter";
 import {
   getUserEmailFromStorage,
   incrementUserNotes,
+  initializeGlobalStats,
   saveUser,
   saveUserEmailToStorage,
 } from "./utils/firebase";
@@ -30,6 +31,9 @@ function App() {
     } else {
       setShowEmailPrompt(true);
     }
+
+    // Initialize global stats document
+    initializeGlobalStats();
   }, []);
 
   // Update document title based on state
