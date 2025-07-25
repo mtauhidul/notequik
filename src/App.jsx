@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { Analytics } from '@vercel/analytics/react';
+import { track } from '@vercel/analytics';
 import { toast, Toaster } from "sonner";
 import DownloadButton from "./components/DownloadButton";
 import EmailPrompt from "./components/EmailPrompt";
@@ -23,6 +25,7 @@ function App() {
   const [generatedNote, setGeneratedNote] = useState(null);
   const [currentVideoUrl, setCurrentVideoUrl] = useState("");
   const [currentLanguage, setCurrentLanguage] = useState("English");
+  const [shouldClearForm, setShouldClearForm] = useState(false);
 
   // Check for existing user email on app load
   useEffect(() => {
@@ -55,10 +58,23 @@ function App() {
       saveUserEmailToStorage(email);
       setUserEmail(email);
       setShowEmailPrompt(false);
+      
+      // Track user registration
+      track('User Registered', {
+        email: email,
+        timestamp: new Date().toISOString()
+      });
+      
+      toast.success("Welcome to NoteQuik! 🚀");
     } catch (error) {
       console.error("Error saving user:", error);
       toast.error("Failed to save user information. Please try again.");
     }
+  };
+
+  // Handle form clear completion
+  const handleFormClearComplete = () => {
+    setShouldClearForm(false);
   };
 
   // Handle note generation
@@ -72,6 +88,14 @@ function App() {
     setGeneratedNote(null);
     setCurrentVideoUrl(url);
     setCurrentLanguage(language);
+
+    // Track note generation attempt
+    track('Note Generation Started', {
+      videoUrl: url,
+      language: language,
+      userEmail: userEmail,
+      timestamp: new Date().toISOString()
+    });
 
     try {
       // Extract video ID
@@ -90,8 +114,33 @@ function App() {
       await incrementUserNotes(userEmail);
 
       setGeneratedNote(summary);
+      
+      // Clear the form after successful generation
+      setShouldClearForm(true);
+      
+      // Track successful note generation
+      track('Note Generated Successfully', {
+        videoId: videoId,
+        language: language,
+        transcriptLength: transcript.length,
+        summaryLength: summary.length,
+        userEmail: userEmail,
+        timestamp: new Date().toISOString()
+      });
+      
+      toast.success("Note generated successfully! 📝");
     } catch (error) {
       console.error("Error generating note:", error);
+      
+      // Track note generation failure
+      track('Note Generation Failed', {
+        videoUrl: url,
+        language: language,
+        error: error.message,
+        userEmail: userEmail,
+        timestamp: new Date().toISOString()
+      });
+      
       toast.error(error.message || "Failed to generate note. Please try again.");
     } finally {
       setIsGenerating(false);
@@ -113,7 +162,12 @@ function App() {
           <Hero />
 
           {/* Input Form */}
-          <InputForm onSubmit={handleGenerateNote} isLoading={isGenerating} />
+          <InputForm 
+            onSubmit={handleGenerateNote} 
+            isLoading={isGenerating}
+            shouldClear={shouldClearForm}
+            onClearComplete={handleFormClearComplete}
+          />
 
           {/* Generated Note */}
           {generatedNote && (
@@ -271,6 +325,9 @@ function App() {
         richColors
         closeButton
       />
+
+      {/* Vercel Analytics */}
+      <Analytics />
     </div>
   );
 }

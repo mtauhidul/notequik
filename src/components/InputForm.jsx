@@ -10,11 +10,23 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Loader2, Youtube } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-const InputForm = ({ onSubmit, isLoading }) => {
+const InputForm = ({ onSubmit, isLoading, shouldClear, onClearComplete }) => {
   const [url, setUrl] = useState("");
   const [language, setLanguage] = useState("English");
+
+  // Clear form when shouldClear prop changes to true
+  useEffect(() => {
+    if (shouldClear) {
+      setUrl("");
+      setLanguage("English");
+      // Notify parent that clearing is complete
+      if (onClearComplete) {
+        onClearComplete();
+      }
+    }
+  }, [shouldClear, onClearComplete]);
 
   const handleSubmit = (e) => {
     e.preventDefault();

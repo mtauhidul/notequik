@@ -3,6 +3,7 @@ import { Download, Loader2 } from "lucide-react";
 import { useState } from "react";
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import { track } from '@vercel/analytics';
 
 const DownloadButton = ({ content, videoUrl, language }) => {
   const [isGenerating, setIsGenerating] = useState(false);
@@ -56,6 +57,14 @@ const DownloadButton = ({ content, videoUrl, language }) => {
     if (!content) return;
 
     setIsGenerating(true);
+
+    // Track PDF download attempt
+    track('PDF Download Started', {
+      videoUrl: videoUrl,
+      language: language,
+      contentLength: content.length,
+      timestamp: new Date().toISOString()
+    });
 
     try {
       const fileName = generateFileName(videoUrl, language, content);
@@ -141,8 +150,27 @@ const DownloadButton = ({ content, videoUrl, language }) => {
       // Download the PDF
       pdf.save(fileName);
 
+      // Track successful PDF download
+      track('PDF Downloaded Successfully', {
+        fileName: fileName,
+        videoUrl: videoUrl,
+        language: language,
+        contentLength: content.length,
+        pdfPages: pdf.internal.getNumberOfPages(),
+        timestamp: new Date().toISOString()
+      });
+
     } catch (error) {
       console.error("Error generating PDF:", error);
+      
+      // Track PDF download failure
+      track('PDF Download Failed', {
+        videoUrl: videoUrl,
+        language: language,
+        error: error.message,
+        timestamp: new Date().toISOString()
+      });
+      
       alert("Failed to generate PDF. Please try again.");
     } finally {
       setIsGenerating(false);
