@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BookOpen, FileText } from "lucide-react";
+import ReactMarkdown from 'react-markdown';
 
 const NoteCard = ({ content, videoUrl, language }) => {
   // Extract video title from URL (simplified)
@@ -15,6 +16,101 @@ const NoteCard = ({ content, videoUrl, language }) => {
   };
 
   if (!content) return null;
+
+  // Custom components for ReactMarkdown
+  const components = {
+    // Headers
+    h1: ({ children }) => (
+      <h1 className="text-3xl font-bold text-primary mb-6 mt-8 border-b border-primary/30 pb-3">
+        {children}
+      </h1>
+    ),
+    h2: ({ children }) => (
+      <h2 className="text-2xl font-semibold text-secondary mb-5 mt-7 flex items-center gap-2">
+        {children}
+      </h2>
+    ),
+    h3: ({ children }) => (
+      <h3 className="text-xl font-medium text-accent mb-4 mt-6">
+        {children}
+      </h3>
+    ),
+    
+    // Paragraphs
+    p: ({ children }) => (
+      <p className="mb-5 text-white/90 leading-relaxed text-base">
+        {children}
+      </p>
+    ),
+    
+    // Lists
+    ul: ({ children }) => (
+      <ul className="mb-6 space-y-3 pl-6">
+        {children}
+      </ul>
+    ),
+    ol: ({ children }) => (
+      <ol className="mb-6 space-y-3 list-decimal pl-6">
+        {children}
+      </ol>
+    ),
+    li: ({ children }) => (
+      <li className="text-white/90 leading-relaxed relative before:content-['•'] before:text-primary before:font-bold before:absolute before:-left-4">
+        {children}
+      </li>
+    ),
+    
+    // Strong/Bold text
+    strong: ({ children }) => (
+      <strong className="font-bold text-primary bg-primary/10 px-1 rounded">
+        {children}
+      </strong>
+    ),
+    
+    // Emphasis/Italic text
+    em: ({ children }) => (
+      <em className="italic text-secondary">
+        {children}
+      </em>
+    ),
+    
+    // Code
+    code: ({ children, inline }) => {
+      if (inline) {
+        return (
+          <code className="bg-primary/20 text-primary px-2 py-1 rounded text-sm font-mono border border-primary/30">
+            {children}
+          </code>
+        );
+      }
+      return (
+        <pre className="bg-white/5 border border-white/10 rounded-lg p-4 overflow-x-auto mb-6">
+          <code className="text-primary font-mono text-sm">
+            {children}
+          </code>
+        </pre>
+      );
+    },
+    
+    // Blockquotes
+    blockquote: ({ children }) => (
+      <blockquote className="border-l-4 border-primary pl-6 py-2 mb-6 text-white/80 italic bg-primary/5 rounded-r-lg">
+        {children}
+      </blockquote>
+    ),
+    
+    // Links
+    a: ({ href, children }) => (
+      <a 
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-primary hover:text-secondary underline transition-colors font-medium"
+      >
+        {children}
+      </a>
+    )
+  };
 
   return (
     <Card className="glass border-white/20 max-w-4xl mx-auto mt-8">
@@ -36,78 +132,12 @@ const NoteCard = ({ content, videoUrl, language }) => {
 
       <CardContent className="pt-0">
         <div className="prose prose-invert max-w-none">
-          <div
-            className="text-white/90 leading-relaxed whitespace-pre-wrap"
-            style={{
-              fontFamily: "inherit",
-              lineHeight: "1.7",
-            }}
-          >
-            {content.split("\n").map((line, index) => {
-              // Format different types of content
-              if (line.startsWith("# ")) {
-                return (
-                  <h1
-                    key={index}
-                    className="text-2xl font-bold text-primary mb-4 mt-6"
-                  >
-                    {line.replace("# ", "")}
-                  </h1>
-                );
-              }
-              if (line.startsWith("## ")) {
-                return (
-                  <h2
-                    key={index}
-                    className="text-xl font-semibold text-secondary mb-3 mt-5"
-                  >
-                    {line.replace("## ", "")}
-                  </h2>
-                );
-              }
-              if (line.startsWith("### ")) {
-                return (
-                  <h3
-                    key={index}
-                    className="text-lg font-medium text-accent mb-2 mt-4"
-                  >
-                    {line.replace("### ", "")}
-                  </h3>
-                );
-              }
-              if (line.startsWith("• ")) {
-                return (
-                  <li key={index} className="ml-4 mb-1 list-disc list-inside">
-                    {line.replace("• ", "")}
-                  </li>
-                );
-              }
-              if (line.startsWith("**") && line.endsWith("**")) {
-                return (
-                  <p key={index} className="font-semibold mb-2">
-                    {line.replace(/\*\*/g, "")}
-                  </p>
-                );
-              }
-              if (line.startsWith("`") && line.endsWith("`")) {
-                return (
-                  <code
-                    key={index}
-                    className="bg-white/10 px-2 py-1 rounded text-primary"
-                  >
-                    {line.replace(/`/g, "")}
-                  </code>
-                );
-              }
-              if (line.trim() === "") {
-                return <br key={index} />;
-              }
-              return (
-                <p key={index} className="mb-2">
-                  {line}
-                </p>
-              );
-            })}
+          <div className="text-white/90">
+            <ReactMarkdown 
+              components={components}
+            >
+              {content}
+            </ReactMarkdown>
           </div>
         </div>
 

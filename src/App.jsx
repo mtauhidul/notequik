@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { toast, Toaster } from "sonner";
 import DownloadButton from "./components/DownloadButton";
 import EmailPrompt from "./components/EmailPrompt";
 import Hero from "./components/Hero";
@@ -56,7 +57,7 @@ function App() {
       setShowEmailPrompt(false);
     } catch (error) {
       console.error("Error saving user:", error);
-      alert("Failed to save user information. Please try again.");
+      toast.error("Failed to save user information. Please try again.");
     }
   };
 
@@ -91,7 +92,7 @@ function App() {
       setGeneratedNote(summary);
     } catch (error) {
       console.error("Error generating note:", error);
-      alert(error.message || "Failed to generate note. Please try again.");
+      toast.error(error.message || "Failed to generate note. Please try again.");
     } finally {
       setIsGenerating(false);
     }
@@ -261,6 +262,14 @@ function App() {
         isOpen={showEmailPrompt}
         onSubmit={handleEmailSubmit}
         onClose={() => setShowEmailPrompt(false)}
+      />
+
+      {/* Toast notifications */}
+      <Toaster 
+        theme="dark" 
+        position="top-right"
+        richColors
+        closeButton
       />
     </div>
   );

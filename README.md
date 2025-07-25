@@ -1,5 +1,108 @@
 # NoteQuik 🚀
 
+Transform YouTube videos into smart learning notes instantly with AI-powered summarization.
+
+## Features
+
+- ✨ AI-powered summarization with OpenAI
+- 🌐 Multi-language support (English & Bengali)
+- 📱 Mobile-responsive design
+- 📄 PDF download functionality
+- 🔥 Modern glassmorphic UI
+- 📊 Real-time user analytics with Firebase
+
+## Tech Stack
+
+- **Frontend**: React 18 + Vite + Tailwind CSS
+- **UI**: shadcn/ui components
+- **Backend**: Node.js + Express
+- **Database**: Firebase Firestore
+- **AI**: OpenAI API
+- **Transcript**: youtube-transcript library
+- **Notifications**: Sonner
+
+## Setup & Installation
+
+### Prerequisites
+
+- Node.js (v18 or higher)
+- npm or pnpm
+- Firebase account
+- OpenAI API key
+
+### 1. Clone & Install Dependencies
+
+```bash
+# Clone the repository
+git clone https://github.com/mtauhidul/notequik.git
+cd notequik
+
+# Install frontend dependencies
+pnpm install
+
+# Install backend dependencies
+cd server
+npm install
+cd ..
+```
+
+### 2. Environment Setup
+
+Create `.env` file in the root directory:
+
+```env
+# Firebase Configuration
+VITE_FIREBASE_API_KEY=your_firebase_api_key
+VITE_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
+VITE_FIREBASE_PROJECT_ID=your_project_id
+VITE_FIREBASE_STORAGE_BUCKET=your_project.firebasestorage.app
+VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+VITE_FIREBASE_APP_ID=your_app_id
+
+# OpenAI Configuration
+VITE_OPENAI_API_KEY=your_openai_api_key
+
+# Server Configuration
+VITE_SERVER_URL=http://localhost:5001
+```
+
+### 3. Running the Application
+
+#### Option 1: Run Both Services Together
+```bash
+pnpm run dev:full
+```
+
+#### Option 2: Run Services Separately
+
+**Terminal 1 - Backend Server:**
+```bash
+cd server
+npm start
+# Server runs on http://localhost:5001
+```
+
+**Terminal 2 - Frontend:**
+```bash
+pnpm run dev
+# Frontend runs on http://localhost:5174
+```
+
+## Usage
+
+1. **Enter Email**: First-time users need to provide their email
+2. **Paste YouTube URL**: Enter any YouTube video URL
+3. **Select Language**: Choose English or Bengali for the notes
+4. **Generate Notes**: AI processes the video transcript and creates formatted notes
+5. **Download PDF**: Save the notes as a PDF file
+
+## Author
+
+**Mir Tauhidul Islam** 🇧🇩
+- Portfolio: [mirtauid.com](https://mirtauid.com)
+- Email: mislam.tauhidul@gmail.com
+- GitHub: [@mtauhidul](https://github.com/mtauhidul)
+
 **Transform any YouTube tutorial into beautifully formatted learning notes**
 
 NoteQuik is a modern, mobile-responsive React web application that allows users to paste any YouTube video link, choose their preferred language (English or Bengali), and receive a beautifully summarized, easy-to-understand learning note that can be downloaded as a PDF.
